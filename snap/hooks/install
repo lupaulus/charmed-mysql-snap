@@ -18,6 +18,13 @@ MYSQL_ROUTER_RUN=$SNAP_COMMON/run/mysqlrouter
 MYSQL_SHELL_VAR_LOG=$SNAP_COMMON/var/log/mysqlsh
 MYSQL_SHELL_USER_CONFIG=/tmp/mysqlsh
 
+PHPMYADMIN_ETC=$SNAP_DATA/etc/phpmyadmin
+PHPMYADMIN_VAR_LIB=$SNAP_COMMON/var/lib/phpmyadmin
+NGINX_ETC=$SNAP_DATA/etc/nginx
+NGINX_VAR_LIB=$SNAP_COMMON/var/lib/nginx
+NGINX_VAR_LOG=$SNAP_COMMON/var/log/nginx
+PHP_RUN=$SNAP_COMMON/run/php
+
 # Creating all the needed directories
 mkdir -p $MYSQL_ETC
 mkdir -p $MYSQL_VAR_LIB
@@ -31,6 +38,15 @@ mkdir -p $MYSQL_ROUTER_RUN
 
 mkdir -p $MYSQL_SHELL_VAR_LOG
 mkdir -p $MYSQL_SHELL_USER_CONFIG
+
+mkdir -p $PHPMYADMIN_ETC
+mkdir -p $PHPMYADMIN_VAR_LIB/tmp
+mkdir -p $PHPMYADMIN_VAR_LIB/upload
+mkdir -p $PHPMYADMIN_VAR_LIB/save
+mkdir -p $NGINX_ETC
+mkdir -p $NGINX_VAR_LIB
+mkdir -p $NGINX_VAR_LOG
+mkdir -p $PHP_RUN
 
 # Copy over mysql config file
 cp -r $SNAP/etc/mysql $SNAP_DATA/etc/
@@ -58,3 +74,9 @@ chown 584788:584788 $MYSQL_ROUTER_VAR_LOG
 chown 584788:584788 $MYSQL_ROUTER_RUN
 chown 584788:584788 $MYSQL_SHELL_VAR_LOG
 chown 584788:584788 $MYSQL_SHELL_USER_CONFIG
+chown -R 584788:584788 $PHPMYADMIN_ETC
+chown -R 584788:584788 $PHPMYADMIN_VAR_LIB
+chown -R 584788:584788 $NGINX_ETC
+chown -R 584788:584788 $NGINX_VAR_LIB
+chown -R 584788:584788 $NGINX_VAR_LOG
+chown -R 584788:584788 $PHP_RUN
