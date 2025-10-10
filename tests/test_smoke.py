@@ -5,11 +5,20 @@ import yaml
 import subprocess
 import time
 import pytest
+import platform
 
 
 def test_install():
     with open("snap/snapcraft.yaml") as file:
         snapcraft = yaml.safe_load(file)
+        
+        # Get system architecture
+        arch = subprocess.run(
+            ["dpkg", "--print-architecture"],
+            capture_output=True,
+            text=True,
+            check=True,
+        ).stdout.strip()
 
         subprocess.run(
             f"sudo snap remove --purge {snapcraft['name']}".split(),
@@ -17,7 +26,7 @@ def test_install():
         )
 
         subprocess.run(
-            f"sudo snap install ./{snapcraft['name']}_{snapcraft['version']}_amd64.snap --dangerous".split(),
+            f"sudo snap install ./{snapcraft['name']}_{snapcraft['version']}_{arch}.snap --dangerous".split(),
             check=True,
         )
 

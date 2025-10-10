@@ -13,13 +13,21 @@ CURRENT = "/var/snap/charmed-mysql/current"
 def test_install():
     with open("snap/snapcraft.yaml") as file:
         snapcraft = yaml.safe_load(file)
+    
+    # Get system architecture
+    arch = subprocess.run(
+        ["dpkg", "--print-architecture"],
+        capture_output=True,
+        text=True,
+        check=True,
+    ).stdout.strip()
 
     subprocess.run(
         f"sudo snap remove --purge {snapcraft['name']}".split(),
         check=True,
     )
     subprocess.run(
-        f"sudo snap install ./{snapcraft['name']}_{snapcraft['version']}_amd64.snap --devmode".split(),
+        f"sudo snap install ./{snapcraft['name']}_{snapcraft['version']}_{arch}.snap --devmode".split(),
         check=True,
     )
 

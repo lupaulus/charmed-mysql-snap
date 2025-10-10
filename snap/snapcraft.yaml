@@ -53,6 +53,18 @@ layout:
     bind: $SNAP_COMMON/var/log/mysqlsh
   /usr/lib/mysqlsh:
     bind: $SNAP/lib/mysqlsh
+  /etc/nginx:
+    bind: $SNAP_DATA/etc/nginx
+  /var/lib/nginx:
+    bind: $SNAP_COMMON/var/lib/nginx
+  /var/log/nginx:
+    bind: $SNAP_COMMON/var/log/nginx
+  /run/php:
+    bind: $SNAP_COMMON/run/php
+  /etc/phpmyadmin:
+    bind: $SNAP_DATA/etc/phpmyadmin
+  /var/lib/phpmyadmin:
+    bind: $SNAP_COMMON/var/lib/phpmyadmin
 
 hooks:
   install:
@@ -140,6 +152,13 @@ apps:
       - network-bind
   mysqlrouter-passwd:
     command: run-mysql-router-password.sh
+  phpmyadmin:
+    command: start-phpmyadmin.sh
+    daemon: simple
+    install-mode: disable
+    plugs:
+      - network
+      - network-bind
 
 parts:
   packages-deb:
@@ -157,6 +176,12 @@ parts:
       - mysql-binlog-utils-udf-plugin=8.0.43+dfsg1-0ubuntu0.22.04.1~ppa1
       - mysql-pitr-helper=2-0ubuntu0.22.04.1~ppa1
       - util-linux
+      - phpmyadmin
+      - nginx-light
+      - php-fpm
+      - php-mysql
+      - php-mbstring
+      - php-xml
     organize:
       usr/share/doc/mysql-server-8.0/copyright: licenses/COPYRIGHT-mysql-server-8.0
       usr/share/doc/mysql-router/LICENSE.router.gz: licenses/LICENSE-mysql-router
